@@ -1,0 +1,30 @@
+---
+- name: Check for deprecated API key
+  fail:
+    msg: "Using a Cloudflare global API key is no longer supported. Please unset cloudflare_api_key and set cloudflare_token"
+  when: cloudflare_api_key is defined
+
+- name: Create cloudflare Dynamic DNS Directories
+  file:
+    path: "{{ cloudflare_data_directory }}"
+    state: directory
+
+- name: Template Cloudflare Dynamic DNS docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ cloudflare_data_directory }}/docker-compose.yml"
+
+- name: Template Cloudflare Dynamic DNS config.yml with scoped token
+  template:
+    src: config.yml
+    dest: "{{ cloudflare_data_directory }}/config.yml"
+
+- name: Update joshava/cloudflare-ddns image
+  command:
+    cmd: docker-compose pull
+    chdir: '{{ cloudflare_data_directory }}'
+
+- name: Start Cloudflare Dynamic DNS
+  command:
+    cmd: docker-compose up -d
+    chdir: '{{ cloudflare_data_directory }}'

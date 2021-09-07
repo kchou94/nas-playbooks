@@ -1,0 +1,8 @@
+version: "3"
+services:
+  cloudflare-ddns:
+    image: joshava/cloudflare-ddns:latest
+    container_name: cloudflare-ddns
+    volumes:
+      - "{{ cloudflare_data_directory }}/config.yml:/app/config.yaml"
+    restart: unless-stopped
