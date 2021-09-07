@@ -4,10 +4,6 @@
   roles:
 
     - role: docker
-      tags:
-        - docker
 
     - role: cloudflare-ddns
-      tags:
-        - cloudflare-ddns
       when: cloudflare_ddns_enabled | bool

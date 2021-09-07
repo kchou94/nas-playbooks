@@ -8,16 +8,19 @@
   file:
     path: "{{ cloudflare_data_directory }}"
     state: directory
+    mode: 0755
 
 - name: Template Cloudflare Dynamic DNS docker-compose.yml
   template:
     src: docker-compose.yml
     dest: "{{ cloudflare_data_directory }}/docker-compose.yml"
+    mode: 0644
 
 - name: Template Cloudflare Dynamic DNS config.yml with scoped token
   template:
     src: config.yml
     dest: "{{ cloudflare_data_directory }}/config.yml"
+    mode: 0644
 
 - name: Update joshava/cloudflare-ddns image
   command:
