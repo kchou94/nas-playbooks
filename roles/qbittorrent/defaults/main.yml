@@ -1,0 +1,26 @@
+---
+qbittorrent_enabled: false
+qbittorrent_available_externally: "false"
+
+# directories
+qbittorrent_config_directory: "{{ docker_home }}/qbittorrent/config"
+qbittorrent_download_directory: "{{ downloads_root }}"
+qbittorrent_watch_directory: "{{ torrents_root }}"
+
+# uid / gid
+qbittorrent_user_id: "0"
+qbittorrent_group_id: "0"
+
+# error logging
+qbittorrent_log_level: "error"
+
+# network
+qbittorrent_port: "18081"
+qbittorrent_bt_port: "16882"
+
+qbittorrent_hostname: "qbittorrent"
+
+qbittorrent_timezone: "{{ ansible_nas_timezone }}"
+
+# specs
+qbittorrent_memory: 1g

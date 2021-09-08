@@ -1,0 +1,16 @@
+version: "3"
+services:
+  jellyfin:
+    image: {{ jellyfin_image }}
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - "{{ jellyfin_config_directory }}:/config"
+      - "{{ jellyfin_movies_directory }}:/movies"
+      # - "{{ jellyfin_tvseries_directory }}:/tvseries"
+    ports:
+      - {{ jellyfin_port }}:8096
+    restart: unless-stopped

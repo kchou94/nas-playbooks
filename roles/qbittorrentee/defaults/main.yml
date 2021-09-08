@@ -1,0 +1,12 @@
+---
+qbittorrentee_enabled: false
+qbittorrentee_available_externally: "false"
+
+qbittorrentee_image: bernylinville/qbittorrentee
+
+# directories
+qbittorrentee_directory: "{{ docker_home }}/qbittorrentee"
+qbittorrentee_config_directory: "{{ qbittorrentee_directory }}/config"
+qbittorrentee_download_directory: "{{ downloads_root }}"
+
+qbittorrentee_port: "18080"

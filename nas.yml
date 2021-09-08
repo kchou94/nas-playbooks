@@ -7,3 +7,12 @@
 
     - role: cloudflare-ddns
       when: cloudflare_ddns_enabled | bool
+
+    - role: traefik
+      when: traefik_enabled | bool
+
+    - role: qbittorrentee
+      when: qbittorrentee_enabled | bool
+
+    - role: jellyfin
+      when: jellyfin_enabled | bool

@@ -1,0 +1,21 @@
+# 提供 Gzip 压缩
+[http.middlewares.gzip.compress]
+
+# 独立协议跳转规则
+[http.middlewares.redir-https.redirectScheme]
+  scheme = "https"
+  port = "{{ traefik_https_port }}"
+
+# 定义一个空服务，用于一些特殊场景
+[http.services]
+  [http.services.noop.LoadBalancer]
+     [[http.services.noop.LoadBalancer.servers]]
+        url = "" # or url = "localhost"
+
+# 定义一个简单的 BA 验证
+[http.middlewares.common-auth.basicAuth]
+  users = [
+    # htpasswd -nb your-user-name your-pass-word
+    "kchou:$apr1$N1j7Y5Xr$c3wymp2dQhHxJCCZcMxQ10",
+  ]
+  removeheader = true

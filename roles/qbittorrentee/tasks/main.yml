@@ -1,0 +1,24 @@
+---
+- name: Create Qbittorrentee Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ qbittorrentee_config_directory }}"
+
+- name: Template qbittorrentee docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ qbittorrentee_directory }}/docker-compose.yml"
+    mode: 0644
+
+- name: Update qbittorrentee image
+  command:
+    cmd: docker-compose pull
+    chdir: "{{ qbittorrentee_directory }}"
+
+- name: Start qbittorrentee
+  command:
+    cmd: docker-compose up -d
+    chdir: "{{ qbittorrentee_directory }}"

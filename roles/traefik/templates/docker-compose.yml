@@ -1,0 +1,85 @@
+version: "3"
+services:
+  traefik:
+    container_name: traefik
+    image: {{ traefik_image }}
+    restart: always
+    ports:
+      - {{ traefik_http_port }}:80
+      - {{ traefik_https_port }}:443
+    networks:
+      - traefik
+    environment:
+      - CF_API_EMAIL={{ cf_api_email }}
+      - CLOUDFLARE_DNS_API_TOKEN={{ cf_dns_api_token }}
+      - CLOUDFLARE_ZONE_API_TOKEN={{ cf_zone_api_token }}
+    command:
+      - "--global.sendanonymoususage=false"
+      - "--global.checknewversion=false"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entryPoints.http.forwardedHeaders.trustedIPs=127.0.0.1/32,172.19.0.1/24"
+      - "--entryPoints.https.forwardedHeaders.trustedIPs=127.0.0.1/32,172.19.0.1/24"
+      - "--api=true"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--api.debug=false"
+      - "--ping=true"
+      - "--log.level=trace"
+      - "--log.format=common"
+      - "--accesslog=false"
+      - "--providers.docker=true"
+      - "--providers.docker.watch=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.swarmMode=false"
+      - "--providers.docker.useBindPortIP=false"
+      - "--providers.docker.network=traefik"
+      - "--providers.file=true"
+      - "--providers.file.watch=true"
+      - "--providers.file.directory=/etc/traefik/config"
+      - "--providers.file.debugloggeneratedtemplate=true"
+      - "--certificatesresolvers.le.acme.email={{ cf_api_email }}"
+      - "--certificatesresolvers.le.acme.storage=/data/ssl/acme.json"
+      - "--certificatesresolvers.le.acme.dnsChallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+      - "--certificatesresolvers.le.acme.dnsChallenge.provider=cloudflare"
+      - "--certificatesresolvers.le.acme.dnsChallenge.delayBeforeCheck=30"
+    volumes:
+      # 仅限标准的 Linux 环境使用
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/:/etc/traefik/config/:ro
+      - ./ssl/:/data/ssl/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+
+      # 处理网页
+      - "traefik.http.routers.traefik-dash-web.tls.certresolver=le"
+      - "traefik.http.routers.traefik-dash-web.tls.domains[0].main={{ nas_domain }}"
+      - "traefik.http.routers.traefik-dash-web.tls.domains[0].sans=*.{{ nas_domain }}"
+
+      - "traefik.http.routers.traefik-dash-web.tls=true"
+      - "traefik.http.routers.traefik-dash-web.middlewares=common-auth@file"
+      - "traefik.http.routers.traefik-dash-web.entrypoints=https"
+      - "traefik.http.routers.traefik-dash-web.rule=Host(`traefik.{{ nas_domain }}`) && PathPrefix(`/`)"
+      - "traefik.http.routers.traefik-dash-web.service=dashboard@internal"
+      # 处理接口
+      - "traefik.http.routers.traefik-dash-api.middlewares=common-auth@file"
+      - "traefik.http.routers.traefik-dash-api.entrypoints=https"
+      - "traefik.http.routers.traefik-dash-api.rule=Host(`traefik.{{ nas_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik-dash-api.tls=true"
+      - "traefik.http.routers.traefik-dash-api.service=api@internal"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider --proxy off localhost:8080/ping || exit 1"]
+      interval: 3s
+      retries: 12
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,15 @@
+---
+traefik_enabled: false
+
+traefik_image: "traefik:v2.5"
+
+traefik_http_port: "30001"
+traefik_https_port: "30002"
+
+cf_api_email: "{{ nas_email }}"
+cf_dns_api_token: "dgsgsrgaregsragaerg"
+cf_zone_api_token: "dgsgsrgaregsragaerg"
+
+traefik_directory: "{{ docker_home }}/traefik"
+traefik_config_directory: "{{ traefik_directory }}/config"
+traefik_ssl_directory: "{{ traefik_directory }}/ssl"

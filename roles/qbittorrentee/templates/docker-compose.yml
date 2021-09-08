@@ -1,0 +1,21 @@
+version: "3"
+services:
+  qbittorrentee:
+    image: {{ qbittorrentee_image }}
+    container_name: qbittorrentee
+    environment:
+      - PUID=1026
+      - PGID=100
+      - TZ=Asia/Shanghai
+    volumes:
+      - "./config:/config"
+      - "{{ qbittorrentee_download_directory }}:/downloads"
+    ports:
+      - 16881:16881
+      - 16881:16881/udp
+      - {{ qbittorrentee_port }}:18080
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"

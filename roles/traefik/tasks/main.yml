@@ -1,0 +1,32 @@
+---
+- name: Ensure traefik directory exists.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ traefik_directory }}"
+    - "{{ traefik_config_directory }}"
+    - "{{ traefik_ssl_directory }}"
+
+- name: Template traefik docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ traefik_directory }}/docker-compose.yml"
+    mode: 0644
+
+- name: Template traefik default.toml
+  template:
+    src: default.toml
+    dest: "{{ traefik_config_directory }}/default.toml"
+    mode: 0644
+
+- name: Update traefik image
+  command:
+    cmd: docker-compose pull
+    chdir: '{{ traefik_directory }}'
+
+- name: Start traefik
+  command:
+    cmd: docker-compose up -d
+    chdir: '{{ traefik_directory }}'
