@@ -18,8 +18,6 @@ services:
       - "--global.checknewversion=false"
       - "--entrypoints.http.address=:80"
       - "--entrypoints.https.address=:443"
-      - "--entryPoints.http.forwardedHeaders.trustedIPs=127.0.0.1/32,172.19.0.1/24"
-      - "--entryPoints.https.forwardedHeaders.trustedIPs=127.0.0.1/32,172.19.0.1/24"
       - "--api=true"
       - "--api.insecure=true"
       - "--api.dashboard=true"

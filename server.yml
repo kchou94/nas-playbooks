@@ -1,0 +1,9 @@
+---
+- hosts: all
+
+  roles:
+
+    - role: docker
+
+    - role: traefik
+      when: traefik_enabled | bool

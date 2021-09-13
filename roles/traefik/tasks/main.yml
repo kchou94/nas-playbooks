@@ -21,6 +21,11 @@
     dest: "{{ traefik_config_directory }}/default.toml"
     mode: 0644
 
+- name: Create traefik docker network
+  docker_network:
+    name: traefik
+    state: present
+
 - name: Update traefik image
   command:
     cmd: docker-compose pull
