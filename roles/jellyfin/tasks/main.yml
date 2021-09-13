@@ -5,6 +5,7 @@
     state: directory
     mode: 0755
   with_items:
+    - "{{ jellyfin_directory }}"
     - "{{ jellyfin_config_directory }}"
 
 - name: Template jellyfin docker-compose.yml

@@ -16,3 +16,6 @@
 
     - role: jellyfin
       when: jellyfin_enabled | bool
+
+    - role: syncthing
+      when: syncthing_enabled | bool

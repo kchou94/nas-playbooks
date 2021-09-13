@@ -1,0 +1,25 @@
+---
+- name: Create syncthing Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ syncthing_directory }}"
+    - "{{ syncthing_config_directory }}"
+
+- name: Template syncthing docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ syncthing_directory }}/docker-compose.yml"
+    mode: 0644
+
+- name: Update syncthing image
+  command:
+    cmd: docker-compose pull
+    chdir: "{{ syncthing_directory }}"
+
+- name: Start syncthing
+  command:
+    cmd: docker-compose up -d
+    chdir: "{{ syncthing_directory }}"
