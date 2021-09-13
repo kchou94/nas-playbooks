@@ -1,0 +1,24 @@
+---
+- name: Create jellyfin Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ jellyfin_config_directory }}"
+
+- name: Template jellyfin docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ jellyfin_directory }}/docker-compose.yml"
+    mode: 0644
+
+- name: Update jellyfin image
+  command:
+    cmd: docker-compose pull
+    chdir: "{{ jellyfin_directory }}"
+
+- name: Start jellyfin
+  command:
+    cmd: docker-compose up -d
+    chdir: "{{ jellyfin_directory }}"
