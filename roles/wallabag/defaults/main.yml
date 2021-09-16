@@ -1,0 +1,13 @@
+---
+syncthing_enabled: false
+
+tz: "{{ nas_timezone }}"
+
+# directories
+syncthing_directory: "{{ docker_home }}/syncthing"
+syncthing_config_directory: "{{ syncthing_directory }}/config"
+syncthing_data_directory: "/tank/syncthing"
+
+# network
+syncthing_port: 8384
+syncthing_hostname: nas

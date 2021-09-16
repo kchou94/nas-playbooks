@@ -3,9 +3,8 @@ traefik_enabled: false
 
 traefik_image: "traefik:v2.5"
 
-traefik_http_port: "30080"
-traefik_https_port: "30090"
-traefik_dashboard_port: "8081"
+traefik_http_port: "80"
+traefik_https_port: "443"
 
 cf_api_email: "{{ nas_email }}"
 cf_dns_api_token: "dgsgsrgaregsragaerg"

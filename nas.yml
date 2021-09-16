@@ -17,5 +17,7 @@
     - role: jellyfin
       when: jellyfin_enabled | bool
 
-    - role: syncthing
-      when: syncthing_enabled | bool
+  tasks:
+
+    - import_tasks: tasks/wallabag.yml
+      when: wallabag_enabled | bool

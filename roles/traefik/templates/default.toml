@@ -4,7 +4,6 @@
 # 独立协议跳转规则
 [http.middlewares.redir-https.redirectScheme]
   scheme = "https"
-  port = "{{ traefik_https_port }}"
 
 # 定义一个空服务，用于一些特殊场景
 [http.services]

@@ -1,0 +1,51 @@
+version: "3"
+services:
+  syncthing:
+    image: linuxserver/syncthing
+    container_name: syncthing
+    hostname: {{ syncthing_hostname }}
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ={{ tz }}
+    volumes:
+      - "{{ syncthing_config_directory }}:/config"
+      - "{{ syncthing_data_directory }}:/data"
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+
+  wallabag:
+    image: wallabag/wallabag:latest
+    container_name: wallabag
+
+    volumes:
+      - "{{ wallabag_data_directory }}/data:/var/www/wallabag/data:rw"
+      - "{{ wallabag_data_directory }}/images:/var/www/wallabag/web/assets/images:rw"
+    ports:
+      - "{{ wallabag_port }}:80"
+    env:
+      SYMFONY__ENV__DOMAIN_NAME: "https://wallabag.{{ nas_domain }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "{{ wallabag_available_externally }}"
+      traefik.docker.network: "{{ traefik_docker_network }}"
+      traefik.http.middlewares.wallabag-gzip.compress: true
+      traefik.http.middlewares.wallabag-redir-https.redirectScheme.scheme: "https"
+      traefik.http.routers.wallabag-http.entrypoints: "http"
+      traefik.http.routers.wallabag-http.rule: "Host(`wallabag.{{ nas_domain }}`)"
+      traefik.http.routers.wallabag-http.middlewares: "wallabag-redir-https"
+      traefik.http.routers.wallabag-https.middlewares: "wallabag-gzip"
+      traefik.http.routers.wallabag-https.entrypoints: "https"
+      traefik.http.routers.wallabag-https.tls: true
+      traefik.http.routers.wallabag-https.rule: "Host(`wallabag.{{ nas_domain }}`)"
+      traefik.http.routers.wallabag-https-assets.middlewares: "wallabag-gzip"
+      traefik.http.routers.wallabag-https-assets.entrypoints: "https"
+      traefik.http.routers.wallabag-https-assets.tls: true
+      traefik.http.services.wallabag-backend.loadbalancer.server.scheme: "http"
+      traefik.http.services.wallabag-backend.loadbalancer.server.port: "80"
+    networks:
+      - name: "{{ traefik_docker_network }}"
