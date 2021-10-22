@@ -47,3 +47,7 @@ docker network create traefik
 
 ```
 
+```
+sops --encrypt --in-place inventory/host_vars/host.sops.yaml
+sops inventory/host_vars/host.sops.yaml
+```

@@ -1,0 +1,6 @@
+---
+creation_rules:
+  - path_regex: ./.*\.sops\.ya?ml
+    unencrypted_regex: "^(kind)$"
+    pgp: >-
+      F5D640651C80454BD2949922F434D770F325B04C
