@@ -1,4 +1,16 @@
-inventories/nas
-inventories/server
+# Editors
+.vscode/
+# Trash
+.DS_Store
+Thumbs.db
 
-.vagrant
+# vscode-sops
+.decrypted~*.yaml
+
+# Ansible
+geerlingguy.docker*
+geerlingguy.samba*
+geerlingguy.nfs*
+
+# test
+.test/
