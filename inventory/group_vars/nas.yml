@@ -1,7 +1,7 @@
 ---
 
-ansible_nas_hostname: nas
-ansible_nas_timezone: Asia/Shanghai
+nas_hostname: nas
+nas_timezone: Asia/Shanghai
 
 ## Enable some applications
 heimdall_enabled: true

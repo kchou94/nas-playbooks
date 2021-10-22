@@ -6,24 +6,26 @@ su
 mv /etc/apt/sources.list /etc/apt/sources.list.bk
 
 cat << EOF >> /etc/apt/sources.list
-#------------------------------------------------------------------------------#
-#                   OFFICIAL DEBIAN REPOS
-#------------------------------------------------------------------------------#
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
 
-###### Debian Main Repos
-deb http://ftp.cn.debian.org/debian/ testing main contrib non-free
-deb-src http://ftp.cn.debian.org/debian/ testing main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
 
-deb http://ftp.cn.debian.org/debian/ testing-updates main contrib non-free
-deb-src http://ftp.cn.debian.org/debian/ testing-updates main contrib non-free
-
-deb http://security.debian.org/ testing-security main
-deb-src http://security.debian.org/ testing-security main
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
 EOF
 
-apt update && apt upgrade -y && apt install neovim sudo tmux curl zfsutils-linux -y
+apt update && apt upgrade -y && apt install sudo curl zfsutils-linux -y
+
+apt install firmware-realtek -y
 
 gpasswd -a kchou sudo
+
+sync && sudo reboot
 
 ls -l /dev/disk/by-id
 
