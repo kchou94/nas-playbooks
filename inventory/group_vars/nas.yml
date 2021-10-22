@@ -3,5 +3,14 @@
 nas_hostname: nas
 nas_timezone: Asia/Shanghai
 
-## Enable some applications
-heimdall_enabled: true
+# docker settings
+docker_home: /tank/docker
+docker_image_directory: "{{ docker_home }}/data"
+docker_storage_driver: zfs
+docker_daemon_options:
+  data-root: "{{ docker_image_directory }}"
+  storage-driver: "{{ docker_storage_driver }}"
+  log-opts:
+    max-size: "100m"
+
+# applications

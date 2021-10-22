@@ -1,10 +1,20 @@
 ---
 - hosts: all
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  pre_tasks:
+    - name: Pausing for 5 seconds...
+      pause:
+        seconds: 5
+
+  tasks:
+    - name: Install Docker
+      include_role:
+        name: geerlingguy.docker
+        public: true
 
   roles:
-
-    - role: docker
-
     - role: cloudflare-ddns
       when: cloudflare_ddns_enabled | bool
 
@@ -16,8 +26,3 @@
 
     - role: jellyfin
       when: jellyfin_enabled | bool
-
-  tasks:
-
-    - import_tasks: tasks/wallabag.yml
-      when: wallabag_enabled | bool
