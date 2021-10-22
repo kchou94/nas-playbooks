@@ -9,6 +9,7 @@ Thumbs.db
 
 # Ansible
 geerlingguy.docker*
+geerlingguy.pip*
 geerlingguy.samba*
 geerlingguy.nfs*
 

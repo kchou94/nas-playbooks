@@ -1,7 +1,7 @@
 ---
 traefik_enabled: false
 
-traefik_image: "traefik:v2.5"
+traefik_image: "traefik:v2.5.3"
 
 traefik_http_port: "80"
 traefik_https_port: "443"
@@ -13,3 +13,5 @@ cf_zone_api_token: "dgsgsrgaregsragaerg"
 traefik_directory: "{{ docker_home }}/traefik"
 traefik_config_directory: "{{ traefik_directory }}/config"
 traefik_ssl_directory: "{{ traefik_directory }}/ssl"
+
+traefik_docker_network: traefik

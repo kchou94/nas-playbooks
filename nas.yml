@@ -9,6 +9,11 @@
         seconds: 5
 
   tasks:
+    - name: Pip Install Docker
+      include_role:
+        name: geerlingguy.pip
+        public: true
+
     - name: Install Docker
       include_role:
         name: geerlingguy.docker

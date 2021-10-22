@@ -4,6 +4,8 @@ nas_hostname: nas
 nas_timezone: Asia/Shanghai
 
 # docker settings
+pip_install_packages:
+    - name: docker
 docker_home: /tank/docker
 docker_image_directory: "{{ docker_home }}/data"
 docker_storage_driver: zfs
@@ -12,5 +14,10 @@ docker_daemon_options:
   storage-driver: "{{ docker_storage_driver }}"
   log-opts:
     max-size: "100m"
+
+# traefik settings
+traefik_enabled: true
+
+cloudflare_ddns_enabled: True
 
 # applications

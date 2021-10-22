@@ -5,8 +5,8 @@ services:
     image: {{ traefik_image }}
     restart: always
     ports:
-      - {{ traefik_http_port }}:80
-      - {{ traefik_https_port }}:443
+      - {{ traefik_http_port }}:{{ traefik_http_port }}
+      - {{ traefik_https_port }}:{{ traefik_https_port }}
     networks:
       - traefik
     environment:
@@ -16,8 +16,8 @@ services:
     command:
       - "--global.sendanonymoususage=false"
       - "--global.checknewversion=false"
-      - "--entrypoints.http.address=:80"
-      - "--entrypoints.https.address=:443"
+      - "--entrypoints.http.address=:{{ traefik_http_port }}"
+      - "--entrypoints.https.address=:{{ traefik_https_port }}"
       - "--api=true"
       - "--api.insecure=true"
       - "--api.dashboard=true"
