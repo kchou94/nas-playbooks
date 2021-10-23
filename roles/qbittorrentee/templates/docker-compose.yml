@@ -11,7 +11,6 @@ services:
     volumes:
       - "./config:/config"
       - "{{ qbittorrentee_download_directory }}:/downloads"
-      - "{{ qbittorrentee_media_directory }}:/media"
     ports:
       - 16881:16881
       - 16881:16881/udp

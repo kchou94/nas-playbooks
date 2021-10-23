@@ -9,8 +9,7 @@ services:
       - TZ=Asia/Shanghai
     volumes:
       - "{{ jellyfin_config_directory }}:/config"
-      - "{{ jellyfin_movies_directory }}:/movies"
-      # - "{{ jellyfin_tvseries_directory }}:/tvseries"
+      - "{{ jellyfin_media_directory }}:/media"
     ports:
       - {{ jellyfin_port }}:8096
     restart: unless-stopped

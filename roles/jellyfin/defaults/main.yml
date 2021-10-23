@@ -7,7 +7,6 @@ jellyfin_image: linuxserver/jellyfin
 # directories
 jellyfin_directory: "{{ docker_home }}/jellyfin"
 jellyfin_config_directory: "{{ jellyfin_directory }}/config"
-jellyfin_movies_directory: "{{ downloads_root }}/movies"
-jellyfin_tvseries_directory: "{{ downloads_root }}/tvseries"
+jellyfin_media_directory: "{{ downloads_root }}/media"
 
 jellyfin_port: "8096"

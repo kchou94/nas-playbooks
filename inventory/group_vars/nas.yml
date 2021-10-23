@@ -24,6 +24,9 @@ syncthing_enabled: true
 
 qbittorrentee_enabled: true
 
+jellyfin_enabled: true
+jellyfin_image: linuxserver/jellyfin:2021.10.22
+
 downloads_root: /tank/downloads
 
 media_root: /tank/media
