@@ -48,6 +48,11 @@ sudo zfs create tank/downloads
 sudo zfs create tank/docker
 sudo zfs create tank/syncthing
 
+sudo zfs create tank/media
+sudo zfs set recordsize=1M tank/media
+sudo zfs set compression=off tank/media
+sudo zfs set exec=off tank/media
+
 docker network create traefik
 
 ```

@@ -22,4 +22,8 @@ cloudflare_ddns_enabled: true
 
 syncthing_enabled: true
 
-# applications
+qbittorrentee_enabled: true
+
+downloads_root: /tank/downloads
+
+media_root: /tank/media

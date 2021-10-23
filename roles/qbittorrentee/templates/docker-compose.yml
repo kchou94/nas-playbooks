@@ -1,21 +1,19 @@
 version: "3"
 services:
   qbittorrentee:
-    image: {{ qbittorrentee_image }}
+    image: superng6/qbittorrentee:4.3.8.10
     container_name: qbittorrentee
     environment:
       - PUID=1026
       - PGID=100
+      - WEBUIPORT=8081
       - TZ=Asia/Shanghai
     volumes:
       - "./config:/config"
       - "{{ qbittorrentee_download_directory }}:/downloads"
+      - "{{ qbittorrentee_media_directory }}:/media"
     ports:
       - 16881:16881
       - 16881:16881/udp
-      - {{ qbittorrentee_port }}:18080
+      - 8081:8081
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
