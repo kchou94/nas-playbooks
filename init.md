@@ -46,6 +46,7 @@ sudo zfs set compression=lz4 tank
 
 sudo zfs create tank/downloads
 sudo zfs create tank/docker
+sudo zfs create tank/syncthing
 
 docker network create traefik
 
